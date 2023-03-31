@@ -1,0 +1,9 @@
+[package]
+name = "rr_api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+sqlx = { version = "0.6.3", features = ["runtime-tokio-rustls", "postgres", "macros", "sqlx-macros", "migrate"] }
+tide = "0.16.0"
+tokio = { version = "1.27.0", features = ["macros", "rt-multi-thread"] }
