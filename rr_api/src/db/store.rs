@@ -1,8 +1,8 @@
 use std::sync::Arc;
 
-use super::repos::{
-    scenario_repo::{DynScenarioRepo, PgScenarioRepo, ScenarioRepo},
-    user_repo::{DynUserRepo, PgUserRepo, UserRepo},
+use super::{
+    scenario_repo::{DynScenarioRepo, PgScenarioRepo},
+    user_repo::{DynUserRepo, PgUserRepo},
 };
 
 #[derive(Clone)]

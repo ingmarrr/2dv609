@@ -1,4 +1,4 @@
-use crate::db::pg::{PgQuery, PgQueryAs, Selectable};
+use crate::db::pg::Selectable;
 use sqlx::{postgres::PgHasArrayType, Row};
 
 pub type PgScenarioQueryAs<'a> =
@@ -22,16 +22,18 @@ pub struct UpdateScenario {
     pub instructions: Option<String>,
 }
 
-#[derive(sqlx::Type, sqlx::FromRow, Default)]
+#[derive(sqlx::Type, sqlx::FromRow, Default, serde::Deserialize, serde::Serialize, Debug)]
 pub struct Scenario {
-    pub id: i32,
+    pub id: i64,
     pub name: String,
     pub category: Category,
     pub description: String,
     pub keywords: Vec<String>,
     pub instructions: String,
-    pub created_at: String,
-    pub updated_at: String,
+    #[serde(rename = "createdAt")]
+    pub created_at: sqlx::types::chrono::DateTime<sqlx::types::chrono::Utc>,
+    #[serde(rename = "updatedAt")]
+    pub updated_at: sqlx::types::chrono::DateTime<sqlx::types::chrono::Utc>,
 }
 
 impl TryFrom<sqlx::postgres::PgRow> for Scenario {
@@ -60,7 +62,7 @@ impl TryFrom<sqlx::postgres::PgRow> for Scenario {
     }
 }
 
-pub struct ScenarioIdent(pub i32);
+pub struct ScenarioIdent(pub i64);
 
 impl Selectable for ScenarioIdent {
     type Output = Scenario;
@@ -70,7 +72,7 @@ impl Selectable for ScenarioIdent {
     }
 }
 
-#[derive(sqlx::Type, Default)]
+#[derive(sqlx::Type, Default, serde::Deserialize, serde::Serialize, Debug)]
 pub enum Category {
     Allergies,
     Burns,

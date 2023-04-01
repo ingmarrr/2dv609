@@ -43,7 +43,7 @@ impl From<Vec<User>> for UsersResponse {
 
 #[derive(sqlx::Type, sqlx::FromRow, Default, serde::Deserialize, serde::Serialize, Debug)]
 pub struct User {
-    pub id: i32,
+    pub id: i64,
     pub username: String,
     pub password: String,
     #[serde(rename = "fullName")]
@@ -51,14 +51,14 @@ pub struct User {
     pub email: String,
     pub phone: String,
     #[serde(rename = "createdAt")]
-    pub created_at: String,
+    pub created_at: sqlx::types::chrono::DateTime<sqlx::types::chrono::Utc>,
     #[serde(rename = "updatedAt")]
-    pub updated_at: String,
+    pub updated_at: sqlx::types::chrono::DateTime<sqlx::types::chrono::Utc>,
 }
 
 impl User {
     pub fn new(
-        id: i32,
+        id: i64,
         username: impl Into<String>,
         password: impl Into<String>,
         full_name: impl Into<String>,
@@ -74,14 +74,18 @@ impl User {
             full_name: full_name.into(),
             email: email.into(),
             phone: phone.into(),
-            created_at: created_at.into(),
-            updated_at: updated_at.into(),
+            created_at: sqlx::types::chrono::DateTime::parse_from_rfc3339(&created_at.into())
+                .unwrap()
+                .with_timezone(&sqlx::types::chrono::Utc),
+            updated_at: sqlx::types::chrono::DateTime::parse_from_rfc3339(&updated_at.into())
+                .unwrap()
+                .with_timezone(&sqlx::types::chrono::Utc),
         }
     }
 }
 
 pub enum UserIdent {
-    Id(i32),
+    Id(i64),
     Username(String),
     Email(String),
     UsernameOrEmail(String),

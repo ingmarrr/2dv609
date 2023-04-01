@@ -29,7 +29,7 @@ pub async fn get_users(
 }
 
 pub async fn get_user(
-    axum::extract::Path(id): axum::extract::Path<i32>,
+    axum::extract::Path(id): axum::extract::Path<i64>,
     axum::Extension(store): axum::extract::Extension<Store>,
 ) -> RResult<axum::Json<User>> {
     tracing::info!("Getting User: {}", id);
@@ -55,7 +55,7 @@ pub async fn create_user(
 }
 
 pub async fn update_user(
-    axum::extract::Path(id): axum::extract::Path<i32>,
+    axum::extract::Path(id): axum::extract::Path<i64>,
     axum::Extension(store): axum::extract::Extension<Store>,
     axum::extract::Json(user): axum::extract::Json<UpdateUser>,
 ) -> RResult<axum::Json<crate::models::user::User>> {
@@ -65,7 +65,7 @@ pub async fn update_user(
 }
 
 pub async fn delete_user(
-    axum::extract::Path(id): axum::extract::Path<i32>,
+    axum::extract::Path(id): axum::extract::Path<i64>,
     axum::Extension(store): axum::extract::Extension<Store>,
 ) -> RResult<axum::Json<()>> {
     tracing::info!("Deleting User: {}", id);

@@ -1,28 +1,32 @@
-// use axum::extract::FromRequest;
-// use serde::de::DeserializeOwned;
-
-// use crate::errors::RError;
+use crate::db::store::Store;
+use anyhow::Context;
+use axum::http::HeaderValue;
 
 pub mod scenario_eps;
 pub mod user_eps;
 
-// #[derive(Debug, Clone, Copy, Default)]
-// pub struct JsonExtractor<T>(pub T);
+pub struct RRouter;
 
-// #[async_trait::async_trait]
-// impl<T, B> FromRequest<B> for JsonExtractor<T>
-// where
-//     T: DeserializeOwned + Send,
-//     B: Send + Sync + 'static,
-//     B::Data: Send,
-//     B::Error: Into<BoxError>,
-// {
-//     type Rejection = RError;
+impl RRouter {
+    pub async fn serve(port: u32, cors_origin: &str, store: Store) -> anyhow::Result<()> {
+        let router = axum::Router::new()
+            .nest("/rr", user_eps::UsersRouter::new(store.clone()))
+            .layer(
+                tower_http::cors::CorsLayer::new()
+                    .allow_origin(cors_origin.parse::<HeaderValue>().unwrap())
+                    .allow_methods([
+                        axum::http::method::Method::GET,
+                        axum::http::method::Method::PUT,
+                    ]),
+            );
 
-//     async fn from_request(
-//         req: *mut axum::extract::RequestParts<B>,
-//     ) -> Result<Self, Self::Rejection> {
-//         let axum::Json(body) = axum::extract::Json::<T>::from_request(req).await?;
-//         Ok(JsonExtractor(body))
-//     }
-// }
+        let addr = format!("127.0.0.1:{}", port);
+        tracing::info!("Starting server on port: {}", port);
+        axum::Server::bind(&addr.parse().unwrap())
+            .serve(router.into_make_service())
+            .await
+            .context("Error while starting server")?;
+
+        Ok(())
+    }
+}
