@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rr_mobile/models/api.dart';
 import 'package:rr_mobile/models/rng_color.dart';
 
 class HomeView extends StatelessWidget {
@@ -43,29 +44,35 @@ class Scenarios extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
+
     return Container(
       padding: EdgeInsets.only(
           top: searchPos == Position.top ? 100 : 0,
           bottom: searchPos == Position.bottom ? 100 : 0),
-      child: SingleChildScrollView(
-        child: Wrap(
-          children: List.generate(
-            25,
-            (idx) => Container(
-              height: 110,
-              width: mq.size.width / 2 - 40,
-              margin: const EdgeInsets.all(10),
-              padding: const EdgeInsets.all(25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: RngColor.getColor(),
-              ),
-              child: const Center(
-                child: Text(""),
+      child: FutureBuilder(
+        future: Api.getScenarios(),
+        builder: (context, snapshot) {
+          return SingleChildScrollView(
+            child: Wrap(
+              children: List.generate(
+                snapshot.data?.length ?? 0,
+                (idx) => Container(
+                  height: 110,
+                  width: mq.size.width / 2 - 40,
+                  margin: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(25),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: RngColor.getColor(),
+                  ),
+                  child: const Center(
+                    child: Text(""),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

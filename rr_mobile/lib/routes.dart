@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:rr_mobile/views/home.dart';
+import 'package:rr_mobile/views/users.dart';
 
 class RouteGen {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case "/":
         return move(const HomeView());
+      case "/users":
+        return move(const UsersView());
       default:
         return _errorRoute();
     }

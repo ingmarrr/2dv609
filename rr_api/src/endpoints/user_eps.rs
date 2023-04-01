@@ -11,10 +11,10 @@ impl UsersRouter {
         let store = axum::extract::Extension(store);
         axum::Router::new()
             .route("/users", axum::routing::get(get_users))
-            .route("/users", axum::routing::post(create_user))
-            .route("/users/:id", axum::routing::get(get_user))
-            .route("/users/:id", axum::routing::put(update_user))
-            .route("/users/:id", axum::routing::delete(delete_user))
+            .route("/user", axum::routing::post(create_user))
+            .route("/user/:id", axum::routing::get(get_user))
+            .route("/user/:id", axum::routing::put(update_user))
+            .route("/user/:id", axum::routing::delete(delete_user))
             .layer(store)
     }
 }

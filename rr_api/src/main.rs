@@ -20,7 +20,7 @@ async fn main() -> tide::Result<()> {
     let url = "postgres://postgres:root@localhost:5432/sandbox";
     let port = 8080;
     let cors_origin = "http://localhost:3000";
-    let pool = db::pool::ConnPool::new(url, true).await?;
+    let pool = db::pool::ConnPool::new(url, false).await?;
     let store = db::store::Store::new(pool);
 
     tracing::info!("Starting server.");

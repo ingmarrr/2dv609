@@ -3,7 +3,16 @@
 
 ## Database - Postgres
 
-### Problem
+You can either use the `rr` cli I made or do it step by step.
+
+### RR-cli
+
+```bash
+rr docker -br
+docker exec -it postgres-sbx bash
+```
+
+### Step By Step
 
 #### Build
 

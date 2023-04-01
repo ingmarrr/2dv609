@@ -1,0 +1,12 @@
+/Users/ingmarfalk/uni/ProjectSE_2dv609/risk_ready/rr/target/debug/deps/anstyle-25f5ea3b7e20f674.rmeta: /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/lib.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/macros.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/color.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/effect.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/reset.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/style.rs
+
+/Users/ingmarfalk/uni/ProjectSE_2dv609/risk_ready/rr/target/debug/deps/libanstyle-25f5ea3b7e20f674.rlib: /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/lib.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/macros.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/color.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/effect.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/reset.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/style.rs
+
+/Users/ingmarfalk/uni/ProjectSE_2dv609/risk_ready/rr/target/debug/deps/anstyle-25f5ea3b7e20f674.d: /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/lib.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/macros.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/color.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/effect.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/reset.rs /Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/style.rs
+
+/Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/lib.rs:
+/Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/macros.rs:
+/Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/color.rs:
+/Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/effect.rs:
+/Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/reset.rs:
+/Users/ingmarfalk/.cargo/registry/src/github.com-1ecc6299db9ec823/anstyle-0.3.5/src/style.rs:
