@@ -9,3 +9,4 @@
 - Sandu Crucerescu
 - Elias Gustafsson
 - Faruk Yildirim
+- Nedko Nedkov

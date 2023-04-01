@@ -37,6 +37,7 @@ impl UserRepo for PgUserRepo {
         let rows = sqlx::query_as::<_, User>("SELECT * FROM users;")
             .fetch_all(&self.client)
             .await?;
+        tracing::info!("Found {} users.", rows.len());
         Ok(rows)
     }
 
