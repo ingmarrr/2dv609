@@ -1,33 +1,58 @@
-use crate::db::pg::{Deletable, PgQuery, PgQueryAs, Selectable};
+use crate::db::pg::{Deletable, PgQuery, Selectable};
 
 pub type PgUserQueryAs<'a> =
     sqlx::query::QueryAs<'a, sqlx::Postgres, User, sqlx::postgres::PgArguments>;
 
-#[derive(sqlx::Type, sqlx::FromRow)]
+#[derive(sqlx::Type, sqlx::FromRow, serde::Deserialize, serde::Serialize, Debug)]
 pub struct CreateUser {
     pub username: String,
     pub email: String,
     pub password: String,
 }
 
-#[derive(sqlx::Type, sqlx::FromRow, Default)]
+#[derive(sqlx::Type, sqlx::FromRow, Default, serde::Deserialize, serde::Serialize, Debug)]
 pub struct UpdateUser {
     pub username: Option<String>,
     pub email: Option<String>,
     pub password: Option<String>,
+    #[serde(rename = "fullName")]
     pub full_name: Option<String>,
     pub phone: Option<String>,
 }
 
-#[derive(sqlx::Type, sqlx::FromRow, Default)]
+#[derive(sqlx::Type, sqlx::FromRow, Default, serde::Deserialize, serde::Serialize, Debug)]
+pub struct GetUsers {
+    username: Option<String>,
+    email: Option<String>,
+    limit: Option<i64>,
+    offset: Option<i64>,
+}
+
+#[derive(sqlx::FromRow, Default, serde::Deserialize, serde::Serialize)]
+pub struct UsersResponse {
+    pub users: Vec<User>,
+    pub total: i64,
+}
+
+impl From<Vec<User>> for UsersResponse {
+    fn from(users: Vec<User>) -> Self {
+        let total = users.len() as i64;
+        UsersResponse { users, total }
+    }
+}
+
+#[derive(sqlx::Type, sqlx::FromRow, Default, serde::Deserialize, serde::Serialize, Debug)]
 pub struct User {
     pub id: i32,
     pub username: String,
     pub password: String,
+    #[serde(rename = "fullName")]
     pub full_name: String,
     pub email: String,
     pub phone: String,
+    #[serde(rename = "createdAt")]
     pub created_at: String,
+    #[serde(rename = "updatedAt")]
     pub updated_at: String,
 }
 

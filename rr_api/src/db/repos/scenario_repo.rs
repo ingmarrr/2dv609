@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use anyhow::Context;
 
 use crate::{
@@ -6,6 +8,8 @@ use crate::{
         CreateScenario, Scenario, ScenarioIdent, SelectScenariosBy, UpdateScenario,
     },
 };
+
+pub type DynScenarioRepo = Arc<dyn ScenarioRepo + Send + Sync>;
 
 #[async_trait::async_trait]
 pub trait ScenarioRepo {
@@ -36,15 +40,7 @@ impl ScenarioRepo for PgScenarioRepo {
     }
 
     async fn get_scenarios(&self, selection: SelectScenariosBy) -> anyhow::Result<Vec<Scenario>> {
-        let rows = selection.select_all().fetch_all(&self.client).await?;
-        let scenarios: Vec<Scenario> = rows
-            .into_iter()
-            .map(|row| Scenario::try_from(row))
-            .collect::<Vec<Result<Scenario, anyhow::Error>>>()
-            .into_iter()
-            .collect::<Result<Vec<_>, _>>()
-            .context("Failed to convert rows to scenarios")?;
-
+        let scenarios = selection.select_all().fetch_all(&self.client).await?;
         Ok(scenarios)
     }
 

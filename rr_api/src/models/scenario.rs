@@ -1,4 +1,4 @@
-use crate::db::pg::{PgQuery, Selectable};
+use crate::db::pg::{PgQuery, PgQueryAs, Selectable};
 use sqlx::{postgres::PgHasArrayType, Row};
 
 pub type PgScenarioQueryAs<'a> =
@@ -140,17 +140,17 @@ pub enum SelectScenariosBy {
     Keywords(Vec<String>),
 }
 
-impl SelectScenariosBy {
-    pub fn select_all(&self) -> PgQuery {
+impl<'a> SelectScenariosBy {
+    pub fn select_all(&self) -> PgScenarioQueryAs<'a> {
         match self {
             SelectScenariosBy::Category(category) => {
-                sqlx::query("SELECT * FROM scenarios WHERE category = $1")
+                sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios WHERE category = $1")
                     .bind(category.to_string().clone())
             }
             SelectScenariosBy::Name(name) => {
-                sqlx::query("SELECT * FROM scenarios WHERE name = $1").bind(name.clone())
+                sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios WHERE name = $1").bind(name.clone())
             }
-            SelectScenariosBy::Keywords(keywords) => sqlx::query(
+            SelectScenariosBy::Keywords(keywords) => sqlx::query_as::<_, Scenario>(
                 "SELECT * FROM scenarios WHERE $1::text[] && keywords AND keywords = ANY($2::text[])",
             )
             .bind(keywords.clone()),
