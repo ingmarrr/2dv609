@@ -18,6 +18,7 @@ CREATE TABLE emergency_scenarios (
   name VARCHAR(100),
   category VARCHAR(100),
   description TEXT,
+  keywords TEXT[],
   instructions TEXT,
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
