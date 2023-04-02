@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rr_mobile/views/download.dart';
 import 'package:rr_mobile/views/home.dart';
 import 'package:rr_mobile/views/login.dart';
 import 'package:rr_mobile/views/users.dart';
@@ -25,8 +26,12 @@ class BottomNavbar extends StatelessWidget {
             onPressed: () => Navigator.pushNamed(context, HomeView.id),
           ),
           IconButton(
-            icon: const Icon(Icons.menu),
+            icon: const Icon(Icons.search),
             onPressed: () => Navigator.pushNamed(context, UsersView.id),
+          ),
+          IconButton(
+            icon: const Icon(Icons.storage),
+            onPressed: () => Navigator.pushNamed(context, DownloadView.id),
           ),
           IconButton(
             icon: const Icon(Icons.person),

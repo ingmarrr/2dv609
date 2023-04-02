@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:rr_mobile/models/api.dart';
-import 'package:rr_mobile/models/migrations.dart';
 import 'package:rr_mobile/models/persistance.dart';
 import 'package:rr_mobile/models/rng_color.dart';
 import 'package:rr_mobile/models/scenario.dart';
-import 'package:rr_mobile/widgets/botton_navbar.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:rr_mobile/widgets/bottom_navbar.dart';
 
 class HomeView extends StatelessWidget {
   static const String id = '/';
 
-  const HomeView({super.key});
+  HomeView({super.key});
+
+  final scenariosProvider = FutureProvider.autoDispose<List<Scenario>>((ref) {
+    return Pers.getScenarios();
+  });
 
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
-    final mqPadding = mq.padding;
-    final pos = Position.top;
+    const pos = Position.top;
 
     return Scaffold(
       body: Container(
@@ -33,8 +33,13 @@ class HomeView extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            SafeArea(child: Scenarios(searchPos: pos)),
-            Search(pos: pos),
+            SafeArea(
+              child: Scenarios(
+                searchPos: pos,
+                scenariosProvider: scenariosProvider,
+              ),
+            ),
+            const Search(pos: pos),
             const Positioned(
               bottom: 0,
               left: 0,
@@ -49,11 +54,18 @@ class HomeView extends StatelessWidget {
 
 class Scenarios extends ConsumerWidget {
   final Position searchPos;
+  final AutoDisposeFutureProvider<List<Scenario>?> scenariosProvider;
+  final Future<void> Function(Scenario)? onTap;
+  final Future<void> Function(Scenario)? onLongPress;
+  final Future<void> Function(Scenario)? onDoubleTap;
 
-  Scenarios({this.searchPos = Position.top, super.key});
-
-  final scenariosProvider = FutureProvider.autoDispose<List<Scenario>>((ref) {
-    return Pers.getScenarios();
+  Scenarios({
+    this.searchPos = Position.top,
+    required this.scenariosProvider,
+    this.onTap,
+    this.onLongPress,
+    this.onDoubleTap,
+    super.key,
   });
 
   @override
@@ -75,14 +87,27 @@ class Scenarios extends ConsumerWidget {
             child: Text(stack.toString()),
           );
         },
-        data: (data) => SingleChildScrollView(
-          child: Wrap(
-            children: List.generate(
-              data.length,
-              (idx) => ScenarioTile(scenario: data[idx]),
+        data: (data) {
+          if (data == null) {
+            return const Center(
+              child: Text('Found nothing.',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            );
+          }
+          return SingleChildScrollView(
+            child: Wrap(
+              children: List.generate(
+                data.length,
+                (idx) => ScenarioTile(
+                  scenario: data[idx],
+                  onTap: onTap,
+                  onLongPress: onLongPress,
+                  onDoubleTap: onDoubleTap,
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -90,8 +115,17 @@ class Scenarios extends ConsumerWidget {
 
 class ScenarioTile extends StatelessWidget {
   final Scenario scenario;
+  final void Function(Scenario)? onTap;
+  final void Function(Scenario)? onLongPress;
+  final void Function(Scenario)? onDoubleTap;
 
-  const ScenarioTile({super.key, required this.scenario});
+  const ScenarioTile({
+    super.key,
+    required this.scenario,
+    this.onTap,
+    this.onLongPress,
+    this.onDoubleTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +140,14 @@ class ScenarioTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: RngColor.getColor(),
       ),
-      child: ListTile(
-        title: Text(scenario.name),
-        subtitle: Text(scenario.description),
+      child: InkWell(
+        onTap: () => onTap != null ? onTap!(scenario) : {},
+        onDoubleTap: () => onDoubleTap != null ? onDoubleTap!(scenario) : {},
+        onLongPress: () => onLongPress != null ? onLongPress!(scenario) : {},
+        child: ListTile(
+          title: Text(scenario.name),
+          subtitle: Text(scenario.description),
+        ),
       ),
     );
   }

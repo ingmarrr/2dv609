@@ -17,6 +17,7 @@ impl ScenariosRouter {
             .route("/scenario/:id", axum::routing::get(get_scenario))
             .route("/scenario/:id", axum::routing::put(update_scenario))
             .route("/scenario/:id", axum::routing::delete(delete_scenario))
+            .route("/additional", axum::routing::get(get_possible_downloads))
             .layer(store)
     }
 }
@@ -27,7 +28,7 @@ pub async fn get_scenarios(
 ) -> RResult<axum::Json<ScenariosResponse>> {
     tracing::info!("Getting scenarios: {:?}", params);
     let scenarios = store.scenarios.get_scenarios(ScenariosIdent::All).await?;
-    Ok(axum::response::Json(scenarios.into()))
+    Ok(axum::Json(scenarios.into()))
 }
 
 pub async fn create_scenario(
@@ -36,7 +37,7 @@ pub async fn create_scenario(
 ) -> RResult<axum::Json<Scenario>> {
     tracing::info!("Creating Scenario: {:?}", scenario);
     let scenario_res = store.scenarios.create_scenario(scenario).await?;
-    Ok(axum::response::Json(scenario_res))
+    Ok(axum::Json(scenario_res))
 }
 
 pub async fn get_scenario(
@@ -53,10 +54,9 @@ pub async fn get_scenario(
             1.to_string(),
         ));
     }
-    Ok(axum::response::Json(scenario.unwrap()))
+    Ok(axum::Json(scenario.unwrap()))
 }
 
-#[axum_macros::debug_handler]
 pub async fn update_scenario(
     axum::extract::Path(id): axum::extract::Path<i64>,
     axum::extract::Extension(store): axum::extract::Extension<Store>,
@@ -64,7 +64,7 @@ pub async fn update_scenario(
 ) -> RResult<axum::Json<Scenario>> {
     tracing::info!("Updating Scenario: {}", id);
     let scenario = store.scenarios.update_scenario(id, scenario).await?;
-    Ok(axum::response::Json(scenario))
+    Ok(axum::Json(scenario))
 }
 
 pub async fn delete_scenario(
@@ -73,5 +73,16 @@ pub async fn delete_scenario(
 ) -> RResult<axum::Json<()>> {
     tracing::info!("Deleting Scenario: {}", id);
     store.scenarios.delete_scenario(id).await?;
-    Ok(axum::response::Json(()))
+    Ok(axum::Json(()))
+}
+
+pub async fn get_possible_downloads(
+    axum::extract::Extension(store): axum::extract::Extension<Store>,
+) -> RResult<axum::Json<ScenariosResponse>> {
+    tracing::info!("Getting possible downloads");
+    let scenarios = store
+        .scenarios
+        .get_scenarios(ScenariosIdent::Downloadable)
+        .await?;
+    Ok(axum::Json(scenarios.into()))
 }

@@ -58,7 +58,7 @@ class LoginView extends HookConsumerWidget {
                           // If there is a session, then navigate to home
                           // If there is no session, then navigate to login
                           Pers.db.then((db) {
-                            Pers.getSession(db).then((session) {
+                            Pers.getSession().then((session) {
                               if (session != null) {
                                 Navigator.pushNamed(context, '/home');
                               }

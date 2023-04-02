@@ -22,6 +22,7 @@ class Scenario {
   });
 
   factory Scenario.fromJson(Map<String, dynamic> json) {
+    debugPrint("Scenario.fromJson: ");
     debugPrint(json.toString());
     return Scenario(
       id: json['id'],
@@ -34,4 +35,15 @@ class Scenario {
       // updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'category': category,
+        'description': description,
+        // 'keywords': keywords,
+        'instructions': instructions,
+        // 'createdAt': createdAt.toIso8601String(),
+        // 'updatedAt': updatedAt.toIso8601String(),
+      };
 }

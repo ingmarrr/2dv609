@@ -17,11 +17,17 @@ class Pers {
         scenarios.length, (idx) => Scenario.fromJson(scenarios[idx]));
   }
 
-  static Future<Session?> getSession(Database db) async {
+  static Future<Session?> getSession() async {
+    final db = await Pers.db;
     final sessions = await db.query('sessions');
     if (sessions.isNotEmpty) {
       return Session.fromJson(sessions[0]);
     }
     return null;
+  }
+
+  static Future<void> storeScenario(Scenario scenario) async {
+    final db = await Pers.db;
+    await db.insert('scenarios', scenario.toJson());
   }
 }

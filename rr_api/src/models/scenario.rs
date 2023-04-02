@@ -161,24 +161,26 @@ pub enum ScenariosIdent {
     Category(String),
     Name(String),
     Keywords(Vec<String>),
+    Downloadable,
     All,
 }
 
 impl<'a> ScenariosIdent {
     pub fn select_all(&self) -> PgScenarioQueryAs<'a> {
         match self {
-            ScenariosIdent::Category(category) => {
+            Self::Category(category) => {
                 sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios WHERE category = $1")
                     .bind(category.to_string().clone())
             }
-            ScenariosIdent::Name(name) => {
+            Self::Name(name) => {
                 sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios WHERE name = $1").bind(name.clone())
             }
-            ScenariosIdent::Keywords(keywords) => sqlx::query_as::<_, Scenario>(
+            Self::Keywords(keywords) => sqlx::query_as::<_, Scenario>(
                 "SELECT * FROM scenarios WHERE $1::text[] && keywords AND keywords = ANY($2::text[])",
             )
             .bind(keywords.clone()),
-            ScenariosIdent::All => sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios"),
+            Self::All => sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios"),
+            Self::Downloadable => sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios WHERE level = 'additional'"),
         }
     }
 }

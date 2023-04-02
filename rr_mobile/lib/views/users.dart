@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rr_mobile/models/api.dart';
 import 'package:rr_mobile/models/rng_color.dart';
 import 'package:rr_mobile/models/user.dart';
-import 'package:rr_mobile/widgets/botton_navbar.dart';
+import 'package:rr_mobile/widgets/bottom_navbar.dart';
 
 import 'home.dart';
 
