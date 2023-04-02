@@ -10,8 +10,8 @@ pub struct RRouter;
 impl RRouter {
     pub async fn serve(port: u32, cors_origin: &str, store: Store) -> anyhow::Result<()> {
         let router = axum::Router::new()
-            .nest("/rr", scenario_eps::ScenariosRouter::new(store.clone()))
-            .nest("/rr", user_eps::UsersRouter::new(store.clone()))
+            .merge(user_eps::UsersRouter::new(store.clone()))
+            .merge(scenario_eps::ScenariosRouter::new(store.clone()))
             .route("/rr/health_check", axum::routing::get(health_check))
             .layer(
                 tower_http::cors::CorsLayer::new()

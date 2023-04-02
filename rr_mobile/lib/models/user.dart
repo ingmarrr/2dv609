@@ -5,6 +5,10 @@ class User {
   final String password;
   final String fullName;
   final String phone;
+  // final String avatar;
+  // final String bio;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   User({
     required this.id,
@@ -13,6 +17,8 @@ class User {
     required this.password,
     required this.fullName,
     required this.phone,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -23,6 +29,8 @@ class User {
       password: json['password'],
       fullName: json['fullName'],
       phone: json['phone'],
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
 }

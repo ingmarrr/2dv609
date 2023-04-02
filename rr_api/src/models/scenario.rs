@@ -7,7 +7,7 @@ pub type PgScenarioQueryAs<'a> =
 #[derive(sqlx::Type, sqlx::FromRow, serde::Deserialize, Debug)]
 pub struct CreateScenario {
     pub name: String,
-    pub category: Category,
+    pub category: String,
     pub description: String,
     pub keywords: Vec<String>,
     pub instructions: String,
@@ -16,7 +16,7 @@ pub struct CreateScenario {
 #[derive(sqlx::Type, sqlx::FromRow, serde::Deserialize, Default)]
 pub struct UpdateScenario {
     pub name: Option<String>,
-    pub category: Option<Category>,
+    pub category: Option<String>,
     pub description: Option<String>,
     pub keywords: Option<Vec<String>>,
     pub instructions: Option<String>,
@@ -25,7 +25,7 @@ pub struct UpdateScenario {
 #[derive(sqlx::FromRow, serde::Deserialize, Debug)]
 pub struct GetScenarios {
     pub name: Option<String>,
-    pub category: Option<Category>,
+    pub category: Option<String>,
     pub limit: Option<i64>,
     pub offset: Option<i64>,
 }
@@ -47,7 +47,7 @@ impl From<Vec<Scenario>> for ScenariosResponse {
 pub struct Scenario {
     pub id: i64,
     pub name: String,
-    pub category: Category,
+    pub category: String,
     pub description: String,
     pub keywords: Vec<String>,
     pub instructions: String,
@@ -93,60 +93,60 @@ impl Selectable for ScenarioIdent {
     }
 }
 
-#[derive(sqlx::Type, Default, serde::Deserialize, serde::Serialize, Debug)]
-pub enum Category {
-    Allergies,
-    Burns,
-    Choking,
-    Dehydration,
-    Drowning,
-    ElectricShock,
-    EyeInjuries,
-    FracturesAndSprains,
-    HeadInjuries,
-    HeartAttack,
-    Hypothermia,
-    InsectBitesAndStings,
-    Poisoning,
-    Seizures,
-    Shock,
-    Stroke,
-    Trauma,
-    Unconsciousness,
-    WoundsAndBleeding,
-    CarbonmonoxidePoisoning,
-    #[default]
-    Undefined,
-}
+// #[derive(sqlx::Type, Default, serde::Deserialize, serde::Serialize, Debug)]
+// pub enum Category {
+//     Allergies,
+//     Burns,
+//     Choking,
+//     Dehydration,
+//     Drowning,
+//     ElectricShock,
+//     EyeInjuries,
+//     FracturesAndSprains,
+//     HeadInjuries,
+//     HeartAttack,
+//     Hypothermia,
+//     InsectBitesAndStings,
+//     Poisoning,
+//     Seizures,
+//     Shock,
+//     Stroke,
+//     Trauma,
+//     Unconsciousness,
+//     WoundsAndBleeding,
+//     CarbonmonoxidePoisoning,
+//     #[default]
+//     Undefined,
+// }
 
-impl std::fmt::Display for Category {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let category = match self {
-            Category::Allergies => "Allergies",
-            Category::Burns => "Burns",
-            Category::Choking => "Choking",
-            Category::Dehydration => "Dehydration",
-            Category::Drowning => "Drowning",
-            Category::ElectricShock => "ElectricShock",
-            Category::EyeInjuries => "EyeInjuries",
-            Category::FracturesAndSprains => "FracturesAndSprains",
-            Category::HeadInjuries => "HeadInjuries",
-            Category::HeartAttack => "HeartAttack",
-            Category::Hypothermia => "Hypothermia",
-            Category::InsectBitesAndStings => "InsectBitesAndStings",
-            Category::Poisoning => "Poisoning",
-            Category::Seizures => "Seizures",
-            Category::Shock => "Shock",
-            Category::Stroke => "Stroke",
-            Category::Trauma => "Trauma",
-            Category::Unconsciousness => "Unconsciousness",
-            Category::WoundsAndBleeding => "WoundsAndBleeding",
-            Category::CarbonmonoxidePoisoning => "CarbonmonoxidePoisoning",
-            Category::Undefined => "Undefined",
-        };
-        write!(f, "{}", category)
-    }
-}
+// impl std::fmt::Display for Category {
+//     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+//         let category = match self {
+//             Category::Allergies => "Allergies",
+//             Category::Burns => "Burns",
+//             Category::Choking => "Choking",
+//             Category::Dehydration => "Dehydration",
+//             Category::Drowning => "Drowning",
+//             Category::ElectricShock => "ElectricShock",
+//             Category::EyeInjuries => "EyeInjuries",
+//             Category::FracturesAndSprains => "FracturesAndSprains",
+//             Category::HeadInjuries => "HeadInjuries",
+//             Category::HeartAttack => "HeartAttack",
+//             Category::Hypothermia => "Hypothermia",
+//             Category::InsectBitesAndStings => "InsectBitesAndStings",
+//             Category::Poisoning => "Poisoning",
+//             Category::Seizures => "Seizures",
+//             Category::Shock => "Shock",
+//             Category::Stroke => "Stroke",
+//             Category::Trauma => "Trauma",
+//             Category::Unconsciousness => "Unconsciousness",
+//             Category::WoundsAndBleeding => "WoundsAndBleeding",
+//             Category::CarbonmonoxidePoisoning => "CarbonmonoxidePoisoning",
+//             Category::Undefined => "Undefined",
+//         };
+//         write!(f, "{}", category)
+//     }
+// }
 
 #[derive(sqlx::FromRow)]
 pub struct Scenarios(Vec<Scenario>);
@@ -158,7 +158,7 @@ impl PgHasArrayType for Scenarios {
 }
 
 pub enum ScenariosIdent {
-    Category(Category),
+    Category(String),
     Name(String),
     Keywords(Vec<String>),
     All,
@@ -178,7 +178,7 @@ impl<'a> ScenariosIdent {
                 "SELECT * FROM scenarios WHERE $1::text[] && keywords AND keywords = ANY($2::text[])",
             )
             .bind(keywords.clone()),
-            All => sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios"),
+            ScenariosIdent::All => sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios"),
         }
     }
 }

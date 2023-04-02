@@ -11,10 +11,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_riverpod: ^2.3.2
   http: ^0.13.5
+  sqflite: ^2.2.6
 
 dev_dependencies:
-
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
@@ -24,6 +25,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/migrations/
+    - assets/data/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

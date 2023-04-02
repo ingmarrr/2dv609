@@ -14,9 +14,9 @@ impl ScenariosRouter {
         axum::Router::new()
             .route("/scenarios", axum::routing::get(get_scenarios))
             .route("/scenario", axum::routing::post(create_scenario))
-            .route("/scenario:id", axum::routing::get(get_scenario))
-            .route("/scenario:id", axum::routing::put(update_scenario))
-            .route("/scenario:id", axum::routing::delete(delete_scenario))
+            .route("/scenario/:id", axum::routing::get(get_scenario))
+            .route("/scenario/:id", axum::routing::put(update_scenario))
+            .route("/scenario/:id", axum::routing::delete(delete_scenario))
             .layer(store)
     }
 }

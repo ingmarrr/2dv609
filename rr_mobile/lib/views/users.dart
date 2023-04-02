@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rr_mobile/models/api.dart';
 import 'package:rr_mobile/models/rng_color.dart';
+import 'package:rr_mobile/models/user.dart';
+import 'package:rr_mobile/widgets/botton_navbar.dart';
 
 import 'home.dart';
 
@@ -30,6 +32,11 @@ class UsersView extends StatelessWidget {
           children: [
             SafeArea(child: Users(searchPos: pos)),
             Search(pos: pos),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              child: BottomNavbar(),
+            )
           ],
         ),
       ),
@@ -49,11 +56,12 @@ class Users extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(
           top: searchPos == Position.top ? 100 : 0,
-          bottom: searchPos == Position.bottom ? 100 : 0),
+          bottom: searchPos == Position.bottom ? 135 : 35),
       child: FutureBuilder(
         future: Api.getUsers(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              !snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -66,36 +74,49 @@ class Users extends StatelessWidget {
             child: Wrap(
               children: List.generate(
                 snapshot.data?.length ?? 0,
-                (idx) => Container(
-                  width: mq.size.width / 2 - 40,
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.all(25),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: RngColor.getColor(),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      snapshot.data![idx].username,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      snapshot.data![idx].email,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
+                (idx) => UserTile(user: snapshot.data![idx]),
               ),
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class UserTile extends StatelessWidget {
+  final User user;
+
+  const UserTile({required this.user, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final mq = MediaQuery.of(context);
+
+    return Container(
+      width: mq.size.width / 2 - 40,
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: RngColor.getColor(),
+      ),
+      child: ListTile(
+        title: Text(
+          user.username,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Text(
+          user.email,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+          ),
+        ),
       ),
     );
   }

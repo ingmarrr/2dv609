@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rr_mobile/models/api.dart';
+import 'package:rr_mobile/models/migrations.dart';
+import 'package:rr_mobile/models/persistance.dart';
 import 'package:rr_mobile/models/rng_color.dart';
+import 'package:rr_mobile/models/scenario.dart';
+import 'package:rr_mobile/widgets/botton_navbar.dart';
+import 'package:sqflite/sqflite.dart';
 
 class HomeView extends StatelessWidget {
   static const String id = '/';
@@ -29,50 +35,89 @@ class HomeView extends StatelessWidget {
           children: [
             SafeArea(child: Scenarios(searchPos: pos)),
             Search(pos: pos),
+            const Positioned(
+              bottom: 0,
+              left: 0,
+              child: BottomNavbar(),
+            )
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        final db = await openDatabase(
+          'rr.db',
+          version: 1,
+        );
+        // Migrations.runMigrations(db);
+        final scenarios = await db.query('scenarios');
+        print("Scenarios: $scenarios");
+      }),
+    );
+  }
+}
+
+class Scenarios extends ConsumerWidget {
+  final Position searchPos;
+
+  Scenarios({this.searchPos = Position.top, super.key});
+
+  final scenariosProvider = FutureProvider.autoDispose<List<Scenario>>((ref) {
+    return Pers.getScenarios();
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scenariosAsync = ref.watch(scenariosProvider);
+
+    return Container(
+      padding: EdgeInsets.only(
+        top: searchPos == Position.top ? 100 : 0,
+        bottom: searchPos == Position.bottom ? 150 : 0,
+      ),
+      child: scenariosAsync.when(
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        error: (error, stack) {
+          debugPrintStack(label: error.toString(), stackTrace: stack);
+          return Center(
+            child: Text(stack.toString()),
+          );
+        },
+        data: (data) => SingleChildScrollView(
+          child: Wrap(
+            children: List.generate(
+              data.length,
+              (idx) => ScenarioTile(scenario: data[idx]),
+            ),
+          ),
         ),
       ),
     );
   }
 }
 
-class Scenarios extends StatelessWidget {
-  final Position searchPos;
+class ScenarioTile extends StatelessWidget {
+  final Scenario scenario;
 
-  const Scenarios({this.searchPos = Position.top, super.key});
+  const ScenarioTile({super.key, required this.scenario});
 
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
 
     return Container(
-      padding: EdgeInsets.only(
-          top: searchPos == Position.top ? 100 : 0,
-          bottom: searchPos == Position.bottom ? 100 : 0),
-      child: FutureBuilder(
-        future: Api.getScenarios(),
-        builder: (context, snapshot) {
-          return SingleChildScrollView(
-            child: Wrap(
-              children: List.generate(
-                snapshot.data?.length ?? 0,
-                (idx) => Container(
-                  height: 110,
-                  width: mq.size.width / 2 - 40,
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.all(25),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: RngColor.getColor(),
-                  ),
-                  child: const Center(
-                    child: Text(""),
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
+      // height: 110,
+      width: mq.size.width / 2 - 40,
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(25),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: RngColor.getColor(),
+      ),
+      child: ListTile(
+        title: Text(scenario.name),
+        subtitle: Text(scenario.description),
       ),
     );
   }
