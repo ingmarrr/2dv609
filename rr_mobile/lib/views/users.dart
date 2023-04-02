@@ -12,8 +12,7 @@ class UsersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
-    final mqPadding = mq.padding;
-    final pos = Position.top;
+    const pos = Position.top;
 
     return Scaffold(
       body: Container(
@@ -27,7 +26,7 @@ class UsersView extends StatelessWidget {
             opacity: .7,
           ),
         ),
-        child: Stack(
+        child: const Stack(
           children: [
             SafeArea(child: Users(searchPos: pos)),
             Search(pos: pos),

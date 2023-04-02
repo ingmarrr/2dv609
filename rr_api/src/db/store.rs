@@ -8,7 +8,7 @@ use super::{
 #[derive(Clone)]
 pub struct Store {
     pub users: DynUserRepo,
-    pub scenario: DynScenarioRepo,
+    pub scenarios: DynScenarioRepo,
 }
 
 impl Store {
@@ -16,7 +16,7 @@ impl Store {
         tracing::info!("Initializing store.");
         Self {
             users: Arc::new(PgUserRepo::new(client.clone())) as DynUserRepo,
-            scenario: Arc::new(PgScenarioRepo::new(client)) as DynScenarioRepo,
+            scenarios: Arc::new(PgScenarioRepo::new(client)) as DynScenarioRepo,
         }
     }
 }

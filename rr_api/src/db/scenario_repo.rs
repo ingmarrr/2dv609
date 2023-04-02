@@ -2,9 +2,7 @@ use std::sync::Arc;
 
 use crate::{
     db::pg::Selectable,
-    models::scenario::{
-        CreateScenario, Scenario, ScenarioIdent, SelectScenariosBy, UpdateScenario,
-    },
+    models::scenario::{CreateScenario, Scenario, ScenarioIdent, ScenariosIdent, UpdateScenario},
 };
 
 pub type DynScenarioRepo = Arc<dyn ScenarioRepo + Send + Sync>;
@@ -12,9 +10,10 @@ pub type DynScenarioRepo = Arc<dyn ScenarioRepo + Send + Sync>;
 #[async_trait::async_trait]
 pub trait ScenarioRepo {
     async fn get_scenario(&self, id: i64) -> anyhow::Result<Option<Scenario>>;
-    async fn get_scenarios(&self, selection: SelectScenariosBy) -> anyhow::Result<Vec<Scenario>>;
+    async fn get_scenarios(&self, selection: ScenariosIdent) -> anyhow::Result<Vec<Scenario>>;
     async fn create_scenario(&self, scenario: CreateScenario) -> anyhow::Result<Scenario>;
     async fn update_scenario(&self, id: i64, data: UpdateScenario) -> anyhow::Result<Scenario>;
+    async fn delete_scenario(&self, id: i64) -> anyhow::Result<()>;
 }
 
 pub struct PgScenarioRepo {
@@ -37,7 +36,7 @@ impl ScenarioRepo for PgScenarioRepo {
         Ok(scenario)
     }
 
-    async fn get_scenarios(&self, selection: SelectScenariosBy) -> anyhow::Result<Vec<Scenario>> {
+    async fn get_scenarios(&self, selection: ScenariosIdent) -> anyhow::Result<Vec<Scenario>> {
         let scenarios = selection.select_all().fetch_all(&self.client).await?;
         Ok(scenarios)
     }
@@ -74,6 +73,22 @@ impl ScenarioRepo for PgScenarioRepo {
             .fetch_one(&self.client)
             .await?;
             Ok(out)
+        } else {
+            Err(anyhow::anyhow!("Scenario not found"))
+        }
+    }
+
+    async fn delete_scenario(&self, id: i64) -> anyhow::Result<()> {
+        let scenario = ScenarioIdent(id)
+            .select()
+            .fetch_optional(&self.client)
+            .await?;
+        if let Some(s) = scenario {
+            sqlx::query("DELETE FROM scenarios WHERE id = $1")
+                .bind(s.id)
+                .execute(&self.client)
+                .await?;
+            Ok(())
         } else {
             Err(anyhow::anyhow!("Scenario not found"))
         }

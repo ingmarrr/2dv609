@@ -4,7 +4,7 @@ use sqlx::{postgres::PgHasArrayType, Row};
 pub type PgScenarioQueryAs<'a> =
     sqlx::query::QueryAs<'a, sqlx::Postgres, Scenario, sqlx::postgres::PgArguments>;
 
-#[derive(sqlx::Type, sqlx::FromRow)]
+#[derive(sqlx::Type, sqlx::FromRow, serde::Deserialize, Debug)]
 pub struct CreateScenario {
     pub name: String,
     pub category: Category,
@@ -13,7 +13,7 @@ pub struct CreateScenario {
     pub instructions: String,
 }
 
-#[derive(sqlx::Type, sqlx::FromRow, Default)]
+#[derive(sqlx::Type, sqlx::FromRow, serde::Deserialize, Default)]
 pub struct UpdateScenario {
     pub name: Option<String>,
     pub category: Option<Category>,
@@ -22,7 +22,28 @@ pub struct UpdateScenario {
     pub instructions: Option<String>,
 }
 
-#[derive(sqlx::Type, sqlx::FromRow, Default, serde::Deserialize, serde::Serialize, Debug)]
+#[derive(sqlx::FromRow, serde::Deserialize, Debug)]
+pub struct GetScenarios {
+    pub name: Option<String>,
+    pub category: Option<Category>,
+    pub limit: Option<i64>,
+    pub offset: Option<i64>,
+}
+
+#[derive(sqlx::FromRow, serde::Deserialize, serde::Serialize, Debug)]
+pub struct ScenariosResponse {
+    pub scenarios: Vec<Scenario>,
+    pub total: i64,
+}
+
+impl From<Vec<Scenario>> for ScenariosResponse {
+    fn from(scenarios: Vec<Scenario>) -> Self {
+        let total = scenarios.len() as i64;
+        ScenariosResponse { scenarios, total }
+    }
+}
+
+#[derive(sqlx::Type, sqlx::FromRow, serde::Deserialize, serde::Serialize, Debug)]
 pub struct Scenario {
     pub id: i64,
     pub name: String,
@@ -136,26 +157,28 @@ impl PgHasArrayType for Scenarios {
     }
 }
 
-pub enum SelectScenariosBy {
+pub enum ScenariosIdent {
     Category(Category),
     Name(String),
     Keywords(Vec<String>),
+    All,
 }
 
-impl<'a> SelectScenariosBy {
+impl<'a> ScenariosIdent {
     pub fn select_all(&self) -> PgScenarioQueryAs<'a> {
         match self {
-            SelectScenariosBy::Category(category) => {
+            ScenariosIdent::Category(category) => {
                 sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios WHERE category = $1")
                     .bind(category.to_string().clone())
             }
-            SelectScenariosBy::Name(name) => {
+            ScenariosIdent::Name(name) => {
                 sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios WHERE name = $1").bind(name.clone())
             }
-            SelectScenariosBy::Keywords(keywords) => sqlx::query_as::<_, Scenario>(
+            ScenariosIdent::Keywords(keywords) => sqlx::query_as::<_, Scenario>(
                 "SELECT * FROM scenarios WHERE $1::text[] && keywords AND keywords = ANY($2::text[])",
             )
             .bind(keywords.clone()),
+            All => sqlx::query_as::<_, Scenario>("SELECT * FROM scenarios"),
         }
     }
 }

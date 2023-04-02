@@ -26,6 +26,7 @@ class Api {
     final response = await http.get(Uri.parse("$baseUrl/users"));
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
+      print(body["users"].length);
       final List<User> users = List.generate(
           body["users"].length, (idx) => User.fromJson(body["users"][idx]));
       return users;
