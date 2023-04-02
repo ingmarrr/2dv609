@@ -43,15 +43,6 @@ class HomeView extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        final db = await openDatabase(
-          'rr.db',
-          version: 1,
-        );
-        // Migrations.runMigrations(db);
-        final scenarios = await db.query('scenarios');
-        print("Scenarios: $scenarios");
-      }),
     );
   }
 }
@@ -72,7 +63,7 @@ class Scenarios extends ConsumerWidget {
     return Container(
       padding: EdgeInsets.only(
         top: searchPos == Position.top ? 100 : 0,
-        bottom: searchPos == Position.bottom ? 150 : 0,
+        bottom: searchPos == Position.bottom ? 135 : 35,
       ),
       child: scenariosAsync.when(
         loading: () => const Center(

@@ -9,7 +9,7 @@ use tracing_subscriber::{prelude::__tracing_subscriber_SubscriberExt, util::Subs
 
 #[tokio::main]
 async fn main() -> tide::Result<()> {
-    println!("cargo:rerun-if-changed=migrations");
+    // println!("cargo:rerun-if-changed=migrations");
     tracing_subscriber::registry()
         .with(tracing_subscriber::EnvFilter::new(
             "sqlx=debug,tower_http=debug,rr_api=info",
