@@ -1,9 +1,8 @@
-use std::sync::Arc;
-
 use crate::{
     db::pg::Selectable,
     models::user::{CreateUser, UpdateUser, User, UserIdent},
 };
+use std::sync::Arc;
 
 pub type DynUserRepo = Arc<dyn UserRepo + Send + Sync>;
 
@@ -14,6 +13,7 @@ pub trait UserRepo {
     async fn create_user(&self, user: CreateUser) -> anyhow::Result<User>;
     async fn update_user(&self, who: UserIdent, data: UpdateUser) -> anyhow::Result<User>;
     async fn delete_user(&self, by: UserIdent) -> anyhow::Result<()>;
+    async fn login_user(&self, by: UserIdent, password: String) -> anyhow::Result<Option<User>>;
 }
 
 pub struct PgUserRepo {
@@ -42,6 +42,19 @@ impl UserRepo for PgUserRepo {
     }
 
     async fn create_user(&self, user: CreateUser) -> anyhow::Result<User> {
+        let maybe_username = self
+            .get_user(UserIdent::Username(user.username.clone()))
+            .await?;
+        let maybe_email = self.get_user(UserIdent::Email(user.email.clone())).await?;
+
+        if let Some(_) = maybe_username {
+            return Err(anyhow::anyhow!("Username already taken"));
+        }
+
+        if let Some(_) = maybe_email {
+            return Err(anyhow::anyhow!("Email already taken"));
+        }
+
         let user = sqlx::query_as::<_, User>(
             "INSERT INTO users (username, email, password) VALUES ($1::varchar, $2::varchar, $3::varchar) RETURNING *;"
         )
@@ -82,5 +95,17 @@ impl UserRepo for PgUserRepo {
         } else {
             Err(anyhow::anyhow!("User not found"))
         }
+    }
+
+    async fn login_user(&self, by: UserIdent, password: String) -> anyhow::Result<Option<User>> {
+        tracing::info!("Checking ident.");
+        let user = by.select().fetch_optional(&self.client).await?;
+        if let Some(u) = user {
+            tracing::info!("Checking password.");
+            if u.password == password {
+                return Ok(Some(u));
+            }
+        }
+        Err(anyhow::anyhow!("Invalid credentials"))
     }
 }

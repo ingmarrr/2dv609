@@ -4,6 +4,8 @@ pub type RResult<T> = Result<T, RError>;
 pub enum RError {
     #[error("Did not find {0} with {1} = {2}")]
     NotFound(String, String, String),
+    #[error("{0}: {1} already exists.")]
+    AlreadyExists(String, String),
     #[error(transparent)]
     Anyhow(#[from] anyhow::Error),
     #[error(transparent)]
@@ -24,6 +26,10 @@ impl axum::response::IntoResponse for RError {
             RError::AxumJsonRejection(err) => {
                 (axum::http::StatusCode::BAD_REQUEST, err.to_string())
             }
+            RError::AlreadyExists(what, value) => (
+                axum::http::StatusCode::CONFLICT,
+                format!("{}: {} already exists.", what, value),
+            ),
         };
 
         axum::response::Response::builder()

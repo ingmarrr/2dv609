@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:rr_mobile/models/scenario.dart';
 import 'package:http/http.dart' as http;
 import 'package:rr_mobile/models/user.dart';
@@ -29,5 +30,33 @@ class Api {
     } else {
       throw "Can't get users.";
     }
+  }
+
+  static Future<User?> login(String email, String password) async {
+    final response = await http.post(Uri.parse("$baseUrl/login"),
+        body: jsonEncode({"usernameOrEmail": email, "password": password}),
+        headers: {"Content-Type": "application/json"});
+
+    debugPrint(response.body);
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      return User.fromJson(body);
+    }
+    return null;
+  }
+
+  static Future<User?> register(
+      String email, String username, String password) async {
+    final response = await http.post(Uri.parse("$baseUrl/register"),
+        body: jsonEncode(
+            {"email": email, "username": username, "password": password}),
+        headers: {"Content-Type": "application/json"});
+
+    debugPrint(response.body);
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      return User.fromJson(body["user"]);
+    }
+    return null;
   }
 }

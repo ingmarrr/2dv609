@@ -33,10 +33,8 @@ class Migrations {
   static const String createSessionsTable = '''
     CREATE TABLE IF NOT EXISTS sessions (
       id INTEGER PRIMARY KEY,
-      scenarioId INTEGER,
       userId INTEGER,
-      createdAt TEXT,
-      updatedAt TEXT
+      token TEXT,
     )
   ''';
 
@@ -48,8 +46,11 @@ class Migrations {
 
     final sql = await rootBundle.loadString('assets/migrations/scenarios.sql');
     await db.execute(sql);
-    // final scenarios = await rootBundle.loadString('assets/data/scenarios.json');
     debugPrint("scenarios: $sql");
+
+    /// This is a different option to load the data from the json file
+
+    // final scenarios = await rootBundle.loadString('assets/data/scenarios.json');
     // debugPrint(const JsonCodec().decode(scenarios).toString());
     // await db.insert('scenarios', const JsonCodec().decode(scenarios));
   }

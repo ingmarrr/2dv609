@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rr_mobile/views/home.dart';
+import 'package:rr_mobile/views/login.dart';
+import 'package:rr_mobile/views/username.dart';
 import 'package:rr_mobile/views/users.dart';
 
 class RouteGen {
@@ -9,6 +11,11 @@ class RouteGen {
         return move(const HomeView());
       case "/users":
         return move(const UsersView());
+      case "/login":
+        return move(const LoginView());
+      case "/username":
+        final UVArgs args = settings.arguments as UVArgs;
+        return move(UsernameView(email: args.email, password: args.password));
       default:
         return _errorRoute();
     }

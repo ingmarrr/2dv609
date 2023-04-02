@@ -41,6 +41,13 @@ impl From<Vec<User>> for UsersResponse {
     }
 }
 
+#[derive(sqlx::Type, sqlx::FromRow, serde::Deserialize, serde::Serialize, Debug)]
+pub struct LoginUser {
+    #[serde(rename = "usernameOrEmail")]
+    pub username_or_email: String,
+    pub password: String,
+}
+
 #[derive(sqlx::Type, sqlx::FromRow, Default, serde::Deserialize, serde::Serialize, Debug)]
 pub struct User {
     pub id: i64,

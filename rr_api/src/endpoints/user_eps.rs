@@ -1,7 +1,7 @@
 use crate::{
     db::store::Store,
     errors::RResult,
-    models::user::{CreateUser, GetUsers, UpdateUser, User, UserIdent, UsersResponse},
+    models::user::{CreateUser, GetUsers, LoginUser, UpdateUser, User, UserIdent, UsersResponse},
 };
 
 pub struct UsersRouter;
@@ -11,10 +11,11 @@ impl UsersRouter {
         let store = axum::extract::Extension(store);
         axum::Router::new()
             .route("/users", axum::routing::get(get_users))
-            .route("/user", axum::routing::post(create_user))
             .route("/user/:id", axum::routing::get(get_user))
             .route("/user/:id", axum::routing::put(update_user))
             .route("/user/:id", axum::routing::delete(delete_user))
+            .route("/login", axum::routing::post(login_user))
+            .route("/register", axum::routing::post(create_user))
             .layer(store)
     }
 }
@@ -71,4 +72,29 @@ pub async fn delete_user(
     tracing::info!("Deleting User: {}", id);
     store.users.delete_user(UserIdent::Id(id)).await?;
     Ok(axum::response::Json(()))
+}
+
+pub async fn login_user(
+    axum::Extension(store): axum::extract::Extension<Store>,
+    axum::extract::Json(user): axum::extract::Json<LoginUser>,
+) -> RResult<axum::Json<crate::models::user::User>> {
+    tracing::info!("Logging in User: {:?}", user);
+    let user_res = store
+        .users
+        .login_user(
+            UserIdent::UsernameOrEmail(user.username_or_email.clone()),
+            user.password,
+        )
+        .await?;
+
+    if let None = user_res {
+        tracing::error!("User not found: {}", user.username_or_email);
+        return Err(crate::errors::RError::NotFound(
+            "User".into(),
+            "username_or_email".into(),
+            user.username_or_email,
+        ));
+    }
+
+    Ok(axum::response::Json(user_res.unwrap()))
 }
