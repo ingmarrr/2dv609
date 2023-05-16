@@ -14,7 +14,7 @@ class Migrations {
       password TEXT,
       createdAt TEXT,
       updatedAt TEXT
-    )
+    );
   ''';
 
   static const String createScenariosTable = '''
@@ -27,22 +27,22 @@ class Migrations {
       instructions TEXT,
       createdAt TEXT,
       updatedAt TEXT
-    )
+    );
   ''';
 
-  static const String createSessionsTable = '''
-    CREATE TABLE IF NOT EXISTS sessions (
-      id INTEGER PRIMARY KEY,
-      userId INTEGER,
-      token TEXT,
-    )
-  ''';
+  // static const String createSessionsTable = '''
+  //   CREATE TABLE IF NOT EXISTS sessions (
+  //     id INTEGER PRIMARY KEY,
+  //     userId INTEGER,
+  //     token TEXT,
+  //   );
+  // ''';
 
   // Run the migrations
   static Future<void> runMigrations(Database db) async {
     await db.execute(createUsersTable);
     await db.execute(createScenariosTable);
-    await db.execute(createSessionsTable);
+    // await db.execute(createSessionsTable);
 
     final sql = await rootBundle.loadString('assets/migrations/scenarios.sql');
     await db.execute(sql);

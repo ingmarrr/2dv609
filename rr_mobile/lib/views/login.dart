@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rr_mobile/models/api.dart';
 import 'package:rr_mobile/models/persistance.dart';
 import 'package:rr_mobile/views/username.dart';
+import 'package:rr_mobile/widgets/page.dart';
 
 class LoginView extends HookConsumerWidget {
   static const String id = '/login';
@@ -17,17 +18,9 @@ class LoginView extends HookConsumerWidget {
     emailController.text = "john_doe@example.com";
     pwController.text = "password123";
 
-    return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/color_splash.png'),
-            fit: BoxFit.cover,
-            opacity: .7,
-          ),
-        ),
-        child: Center(
+    return RPage(
+      children: [
+        Center(
           child: Container(
             height: 300,
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
@@ -60,7 +53,8 @@ class LoginView extends HookConsumerWidget {
                           Pers.db.then((db) {
                             Pers.getSession().then((session) {
                               if (session != null) {
-                                Navigator.pushNamed(context, '/home');
+                                Navigator.pushReplacementNamed(
+                                    context, '/home');
                               }
                             });
                           });
@@ -90,7 +84,7 @@ class LoginView extends HookConsumerWidget {
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

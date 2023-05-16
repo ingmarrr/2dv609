@@ -1,4 +1,3 @@
-
-rr_api/target/*
-rr_api/target/debug/*
-migration/target/*
+build/
+rr/target
+rr/target

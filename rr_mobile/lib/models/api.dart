@@ -85,7 +85,7 @@ class Api {
     debugPrint(response.body);
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
-      return User.fromJson(body["user"]);
+      return User.fromJson(body);
     }
     return null;
   }

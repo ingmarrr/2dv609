@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rr_mobile/models/migrations.dart';
+import 'package:rr_mobile/models/persistance.dart';
 import 'package:rr_mobile/widgets/bottom_navbar.dart';
 
 class RPage extends StatelessWidget {
@@ -33,6 +35,12 @@ class RPage extends StatelessWidget {
           ],
         ),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // Run migration
+      //     Pers.db.then((db) => Migrations.runMigrations(db));
+      //   },
+      // ),
     );
   }
 }

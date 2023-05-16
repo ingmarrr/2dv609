@@ -23,19 +23,23 @@ class BottomNavbar extends StatelessWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.home),
-            onPressed: () => Navigator.pushNamed(context, HomeView.id),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, HomeView.id),
           ),
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () => Navigator.pushNamed(context, UsersView.id),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, UsersView.id),
           ),
           IconButton(
             icon: const Icon(Icons.storage),
-            onPressed: () => Navigator.pushNamed(context, DownloadView.id),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, DownloadView.id),
           ),
           IconButton(
             icon: const Icon(Icons.person),
-            onPressed: () => Navigator.pushNamed(context, LoginView.id),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, LoginView.id),
           ),
         ],
       ),

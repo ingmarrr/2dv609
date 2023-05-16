@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rr_mobile/models/scenario.dart';
 import 'package:rr_mobile/views/download.dart';
 import 'package:rr_mobile/views/home.dart';
 import 'package:rr_mobile/views/login.dart';
+import 'package:rr_mobile/views/scenario.dart';
 import 'package:rr_mobile/views/username.dart';
 import 'package:rr_mobile/views/users.dart';
 
@@ -19,6 +21,9 @@ class RouteGen {
         return move(UsernameView(email: args.email, password: args.password));
       case "/download":
         return move(DownloadView());
+      // case "/scenario":
+      //   final scenario = settings.arguments as Scenario;
+      //   return move(ScenarioView());
       default:
         return _errorRoute();
     }
@@ -29,18 +34,25 @@ class RouteGen {
       pageBuilder: (context, animation, anotherAnimation) {
         return target;
       },
-      transitionDuration: const Duration(milliseconds: 0),
+      transitionDuration: const Duration(milliseconds: 150),
       transitionsBuilder: (context, animation, anotherAnimation, child) {
         animation = CurvedAnimation(
-          curve: Curves.bounceIn,
+          curve: Curves.easeIn,
           parent: animation,
         );
         return Align(
-          child: SizeTransition(
-            sizeFactor: animation,
-            axisAlignment: 0.0,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
             child: child,
           ),
+          // child: SizeTransition(
+          //   sizeFactor: animation,
+          //   axisAlignment: 0.0,
+          //   child: child,
+          // ),
         );
       },
     );

@@ -93,61 +93,6 @@ impl Selectable for ScenarioIdent {
     }
 }
 
-// #[derive(sqlx::Type, Default, serde::Deserialize, serde::Serialize, Debug)]
-// pub enum Category {
-//     Allergies,
-//     Burns,
-//     Choking,
-//     Dehydration,
-//     Drowning,
-//     ElectricShock,
-//     EyeInjuries,
-//     FracturesAndSprains,
-//     HeadInjuries,
-//     HeartAttack,
-//     Hypothermia,
-//     InsectBitesAndStings,
-//     Poisoning,
-//     Seizures,
-//     Shock,
-//     Stroke,
-//     Trauma,
-//     Unconsciousness,
-//     WoundsAndBleeding,
-//     CarbonmonoxidePoisoning,
-//     #[default]
-//     Undefined,
-// }
-
-// impl std::fmt::Display for Category {
-//     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-//         let category = match self {
-//             Category::Allergies => "Allergies",
-//             Category::Burns => "Burns",
-//             Category::Choking => "Choking",
-//             Category::Dehydration => "Dehydration",
-//             Category::Drowning => "Drowning",
-//             Category::ElectricShock => "ElectricShock",
-//             Category::EyeInjuries => "EyeInjuries",
-//             Category::FracturesAndSprains => "FracturesAndSprains",
-//             Category::HeadInjuries => "HeadInjuries",
-//             Category::HeartAttack => "HeartAttack",
-//             Category::Hypothermia => "Hypothermia",
-//             Category::InsectBitesAndStings => "InsectBitesAndStings",
-//             Category::Poisoning => "Poisoning",
-//             Category::Seizures => "Seizures",
-//             Category::Shock => "Shock",
-//             Category::Stroke => "Stroke",
-//             Category::Trauma => "Trauma",
-//             Category::Unconsciousness => "Unconsciousness",
-//             Category::WoundsAndBleeding => "WoundsAndBleeding",
-//             Category::CarbonmonoxidePoisoning => "CarbonmonoxidePoisoning",
-//             Category::Undefined => "Undefined",
-//         };
-//         write!(f, "{}", category)
-//     }
-// }
-
 #[derive(sqlx::FromRow)]
 pub struct Scenarios(Vec<Scenario>);
 

@@ -21,7 +21,8 @@ create table if not exists scenarios (
     keywords     text[]       not null default '{}',
     instructions text         not null default '',
     created_at   timestamptz  not null default now(),
-    updated_at   timestamptz  not null default now()
+    updated_at   timestamptz  not null default now(),
+    level        varchar      not null default 'basic'
 );
 
 

@@ -13,6 +13,7 @@ impl RRouter {
             .merge(user_eps::UsersRouter::new(store.clone()))
             .merge(scenario_eps::ScenariosRouter::new(store.clone()))
             .route("/rr/health_check", axum::routing::get(health_check))
+            .route("/rr/home", axum::routing::get(|| async { "Hello, World!" }))
             .layer(
                 tower_http::cors::CorsLayer::new()
                     .allow_origin(cors_origin.parse::<HeaderValue>().unwrap())

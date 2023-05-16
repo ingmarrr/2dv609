@@ -44,13 +44,24 @@ class UsernameView extends HookConsumerWidget {
                   prefixIcon: Icons.person,
                   controller: usernameController,
                 ),
-                FormBtn(
-                  text: 'Submit',
-                  onTap: () {
-                    Api.register(email, usernameController.text, password);
-                    Navigator.pushNamed(context, HomeView.id);
-                  },
-                )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    FormBtn(
+                      text: 'Cancel',
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    FormBtn(
+                      text: 'Submit',
+                      onTap: () {
+                        Api.register(email, usernameController.text, password);
+                        Navigator.pushReplacementNamed(context, HomeView.id);
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

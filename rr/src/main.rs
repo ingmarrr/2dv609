@@ -18,6 +18,9 @@ pub enum Ty {
 #[derive(Debug, Args)]
 pub struct Docker {
     #[clap(short, long)]
+    name: String,
+
+    #[clap(short, long)]
     build: bool,
 
     #[clap(short, long)]
@@ -44,12 +47,13 @@ fn main() {
 
     match app.ty {
         Ty::Docker(docker) => {
+            let name = docker.name;
             if docker.build {
                 // run: docker build -t postgres-sbx -f postgres.Dockerfile .
                 let mut child = std::process::Command::new("docker")
                     .arg("build")
                     .arg("-t")
-                    .arg("postgres-sbx")
+                    .arg(&name)
                     .arg("-f")
                     .arg("postgres.Dockerfile")
                     .arg(".")
@@ -67,10 +71,10 @@ fn main() {
                     .arg("run")
                     .arg("-d")
                     .arg("--name")
-                    .arg("postgres-sbx")
+                    .arg(&name)
                     .arg("-p")
                     .arg("5432:5432")
-                    .arg("postgres-sbx")
+                    .arg(&name)
                     .spawn()
                     .expect("failed to execute process");
 
@@ -83,7 +87,7 @@ fn main() {
                 // docker start postgres-sbx
                 std::process::Command::new("docker")
                     .arg("start")
-                    .arg("postgres-sbx")
+                    .arg(&name)
                     .spawn()
                     .expect("failed to execute process");
             }

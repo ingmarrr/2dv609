@@ -13,7 +13,7 @@ serde = { version = "1.0.159", features = ["derive"] }
 sqlx = { version = "0.6.3", features = ["runtime-tokio-rustls", "postgres", "macros", "sqlx-macros", "migrate", "chrono", "uuid"] }
 thiserror = "1.0.40"
 tide = "0.16.0"
-tokio = { version = "1.27.0", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.27.0", features = ["macros"] }
 tower-http = { version = "0.4.0", features = ["cors"] }
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.16", features = ["fmt", "env-filter"] }

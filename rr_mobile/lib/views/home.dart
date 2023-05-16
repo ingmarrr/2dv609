@@ -4,6 +4,7 @@ import 'package:rr_mobile/models/persistance.dart';
 import 'package:rr_mobile/models/rng_color.dart';
 import 'package:rr_mobile/models/scenario.dart';
 import 'package:rr_mobile/widgets/bottom_navbar.dart';
+import 'package:rr_mobile/widgets/page.dart';
 
 class HomeView extends StatelessWidget {
   static const String id = '/';
@@ -19,35 +20,21 @@ class HomeView extends StatelessWidget {
     final mq = MediaQuery.of(context);
     const pos = Position.top;
 
-    return Scaffold(
-      body: Container(
-        height: mq.size.height,
-        width: mq.size.width,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/color_splash.png'),
-            fit: BoxFit.cover,
-            opacity: .7,
+    return RPage(
+      children: [
+        SafeArea(
+          child: Scenarios(
+            searchPos: pos,
+            scenariosProvider: scenariosProvider,
           ),
         ),
-        child: Stack(
-          children: [
-            SafeArea(
-              child: Scenarios(
-                searchPos: pos,
-                scenariosProvider: scenariosProvider,
-              ),
-            ),
-            const Search(pos: pos),
-            const Positioned(
-              bottom: 0,
-              left: 0,
-              child: BottomNavbar(),
-            )
-          ],
-        ),
-      ),
+        const Search(pos: pos),
+        const Positioned(
+          bottom: 0,
+          left: 0,
+          child: BottomNavbar(),
+        )
+      ],
     );
   }
 }
