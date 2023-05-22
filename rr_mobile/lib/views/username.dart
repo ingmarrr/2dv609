@@ -18,6 +18,9 @@ class UsernameView extends HookConsumerWidget {
   final String password;
 
   const UsernameView({required this.email, required this.password, super.key});
+  UsernameView.from(UVArgs args, {super.key})
+      : email = args.email,
+        password = args.password;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -9,24 +9,17 @@ import 'package:rr_mobile/views/users.dart';
 
 class RouteGen {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case "/":
-        return move(HomeView());
-      case "/users":
-        return move(const UsersView());
-      case "/login":
-        return move(const LoginView());
-      case "/username":
-        final UVArgs args = settings.arguments as UVArgs;
-        return move(UsernameView(email: args.email, password: args.password));
-      case "/download":
-        return move(DownloadView());
+    return switch (settings.name) {
+      "/" => move(HomeView()),
+      "/users" => move(const UsersView()),
+      "/login" => move(const LoginView()),
+      "/username" => move(UsernameView.from(settings.arguments as UVArgs)),
+      "/download" => move(DownloadView()),
       // case "/scenario":
       //   final scenario = settings.arguments as Scenario;
       //   return move(ScenarioView());
-      default:
-        return _errorRoute();
-    }
+      _ => _errorRoute()
+    };
   }
 
   static PageRouteBuilder<dynamic> move(Widget target) {
