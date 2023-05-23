@@ -23,17 +23,23 @@ class ScenarioView extends ConsumerWidget {
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               ),
+              const SizedBox(
+                height: 30,
+              ),
               Text(
                 scenario.description,
                 style: const TextStyle(fontSize: 18),
+              ),
+              const SizedBox(
+                height: 15,
               ),
               const Text(
                 "Instructions:",
                 style: TextStyle(fontSize: 25),
               ),
-              // for (String scenario in scenario.instructions.split("/n"))
-              //   {print(scenario)}
-              // Text(scenario, style: const TextStyle(fontSize: 18)),
+              const SizedBox(
+                height: 15,
+              ),
               ...instructionsToColumn(scenario.instructions)
             ],
           ))
@@ -44,7 +50,6 @@ class ScenarioView extends ConsumerWidget {
     List<Widget> children = [];
 
     for (final instruction in instructions.split("\\n")) {
-      print(instruction);
       children.add(Text(
         instruction,
         style: const TextStyle(fontSize: 18),
