@@ -122,18 +122,21 @@ class ScenarioTile extends StatelessWidget {
       // height: 110,
       width: mq.size.width / 2 - 40,
       margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(25),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: RngColor.getColor(),
-      ),
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white.withOpacity(.7),
+          border: Border.all(
+            color: Colors.black.withOpacity(.3),
+            width: 2,
+          )),
       child: InkWell(
         onTap: () => onTap != null ? onTap!(scenario) : {},
         onDoubleTap: () => onDoubleTap != null ? onDoubleTap!(scenario) : {},
         onLongPress: () => onLongPress != null ? onLongPress!(scenario) : {},
         child: ListTile(
           title: Text(scenario.name),
-          subtitle: Text(scenario.description),
+          // subtitle: Text(scenario.description),
         ),
       ),
     );

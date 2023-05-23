@@ -17,13 +17,14 @@ class RPage extends StatelessWidget {
         height: mq.size.height,
         width: mq.size.width,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/color_splash.png'),
-            fit: BoxFit.cover,
-            opacity: .7,
-          ),
-        ),
+        decoration:
+            const BoxDecoration(color: Color.fromARGB(255, 219, 235, 245)
+                // image: DecorationImage(
+                //   image: AssetImage('assets/images/color_splash.png'),
+                //   fit: BoxFit.cover,
+                //   opacity: .7,
+                // ),
+                ),
         child: Stack(
           children: [
             ...children,
