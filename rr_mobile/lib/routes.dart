@@ -5,18 +5,20 @@ import 'package:rr_mobile/views/home.dart';
 import 'package:rr_mobile/views/login.dart';
 import 'package:rr_mobile/views/scenario.dart';
 import 'package:rr_mobile/views/username.dart';
-import 'package:rr_mobile/views/users.dart';
 
 class RouteGen {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     return switch (settings.name) {
       "/" => move(HomeView()),
-      "/users" => move(const UsersView()),
       "/login" => move(const LoginView()),
-      "/username" => move(UsernameView.from(settings.arguments as UVArgs)),
+      "/username" => move(
+          UsernameView.from(settings.arguments as UVArgs),
+        ),
       "/download" => move(DownloadView()),
-      "/scenario" =>
-        move(ScenarioView(scenario: settings.arguments as Scenario)),
+      "/scenario" => move(
+          ScenarioView(scenario: settings.arguments as Scenario),
+        ),
+      "/unimplemented" => _unimplemented(),
       _ => _errorRoute()
     };
   }
@@ -59,6 +61,21 @@ class RouteGen {
           ),
           body: const Center(
             child: Text('ERROR'),
+          ),
+        );
+      },
+    );
+  }
+
+  static Route<dynamic> _unimplemented() {
+    return MaterialPageRoute(
+      builder: (_) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Unimplemented'),
+          ),
+          body: const Center(
+            child: Text('Unimplemented'),
           ),
         );
       },

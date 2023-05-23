@@ -123,7 +123,7 @@ class ScenarioTile extends StatelessWidget {
       // height: 110,
       width: mq.size.width / 2 - 40,
       margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.white.withOpacity(.7),
@@ -137,7 +137,6 @@ class ScenarioTile extends StatelessWidget {
         onLongPress: () => onLongPress != null ? onLongPress!(scenario) : {},
         child: ListTile(
           title: Text(scenario.name),
-          // subtitle: Text(scenario.description),
         ),
       ),
     );

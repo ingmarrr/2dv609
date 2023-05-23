@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:rr_mobile/models/api.dart';
 import 'package:rr_mobile/views/home.dart';
 import 'package:rr_mobile/views/login.dart';
+import 'package:rr_mobile/widgets/page.dart';
 
 class UVArgs {
   final String email;
@@ -26,17 +27,9 @@ class UsernameView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final usernameController = useTextEditingController();
 
-    return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/color_splash.png'),
-            fit: BoxFit.cover,
-            opacity: .7,
-          ),
-        ),
-        child: Center(
+    return RPage(
+      children: [
+        Center(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
@@ -69,7 +62,7 @@ class UsernameView extends HookConsumerWidget {
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

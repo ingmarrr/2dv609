@@ -18,7 +18,7 @@ async fn main() {
     let url = "postgres://postgres:root@localhost:5432/sandbox";
     let port = 8080;
     let cors_origin = "http://localhost:3000";
-    let pool = db::pool::ConnPool::new(url, false)
+    let pool = db::pool::ConnPool::new(url, true)
         .await
         .expect("Error while creating pool");
     let store = db::store::Store::new(pool);

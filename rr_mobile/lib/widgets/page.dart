@@ -18,7 +18,7 @@ class RPage extends StatelessWidget {
         width: mq.size.width,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration:
-            const BoxDecoration(color: Color.fromARGB(255, 219, 235, 245)
+            const BoxDecoration(color: Color.fromARGB(255, 243, 250, 255)
                 // image: DecorationImage(
                 //   image: AssetImage('assets/images/color_splash.png'),
                 //   fit: BoxFit.cover,

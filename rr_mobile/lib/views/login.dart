@@ -20,69 +20,101 @@ class LoginView extends HookConsumerWidget {
 
     return RPage(
       children: [
-        Center(
-          child: Container(
-            height: 300,
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.9),
-              // color: const Color(0xFF17779A).withOpacity(.2),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TField(
-                    hintText: 'Email',
-                    prefixIcon: Icons.person,
-                    controller: emailController),
-                const SizedBox(height: 20),
-                TField(
-                    hintText: 'Password',
-                    prefixIcon: Icons.lock,
-                    controller: pwController),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    FormBtn(
-                        text: 'Login',
-                        onTap: () {
-                          // First, make a request to sqflite to check for sessions
-                          // If there is a session, then navigate to home
-                          // If there is no session, then navigate to login
-                          Pers.db.then((db) {
-                            Pers.getSession().then((session) {
-                              if (session != null) {
-                                Navigator.pushReplacementNamed(
-                                    context, '/home');
-                              }
-                            });
-                          });
-
-                          // Next, make a request to the API to check if a user
-                          // exists with the given username and password
-                          // If the user exists, then navigate to home
-                          // If the user does not exist, then navigate to login
-                          Api.login(emailController.text, pwController.text)
-                              .then((session) {
-                            if (session != null) {
-                              Navigator.pushNamed(context, '/');
-                            }
-                          });
-
-                          Navigator.pushNamed(context, '/error');
-                        }),
-                    FormBtn(
-                      text: 'Register',
-                      onTap: () => Navigator.pushNamed(context, '/username',
-                          arguments:
-                              UVArgs(emailController.text, pwController.text)),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                // color: Color.fromARGB(255, 91, 116, 164),
+                // border: Border.all(
+                //   color: Colors.grey,
+                //   width: .5,
+                // ),
+                // color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TField(
+                      hintText: 'Email',
+                      prefixIcon: Icons.person,
+                      controller: emailController),
+                  const SizedBox(height: 20),
+                  TField(
+                      hintText: 'Password',
+                      prefixIcon: Icons.lock,
+                      controller: pwController),
+                  const SizedBox(height: 10),
+                  InkWell(
+                    child: const Text(
+                      "Create Account.",
+                      style: TextStyle(color: Colors.blue),
                     ),
-                  ],
-                )
-              ],
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      '/username',
+                      arguments:
+                          UVArgs(emailController.text, pwController.text),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: FormBtn(
+                            text: 'Login',
+                            onTap: () {
+                              // First, make a request to sqflite to check for sessions
+                              // If there is a session, then navigate to home
+                              // If there is no session, then navigate to login
+                              Pers.db.then((db) {
+                                Pers.getSession().then((session) {
+                                  if (session != null) {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/home');
+                                  }
+                                });
+                              });
+
+                              // Next, make a request to the API to check if a user
+                              // exists with the given username and password
+                              // If the user exists, then navigate to home
+                              // If the user does not exist, then navigate to login
+                              Api.login(emailController.text, pwController.text)
+                                  .then((session) {
+                                if (session != null) {
+                                  Navigator.pushNamed(context, '/');
+                                }
+                              });
+
+                              Navigator.pushNamed(context, '/unimplemented');
+                            }),
+                      ),
+                      // const SizedBox(width: 10),
+                      // Expanded(
+                      //   child: FormBtn(
+                      //     text: "Cancel",
+                      //     onTap: () => Navigator.of(context).pop(),
+                      //   ),
+                      // )
+                      // FormBtn(
+                      //   text: 'Register',
+                      //   onTap: () => Navigator.pushNamed(
+                      //     context,
+                      //     '/username',
+                      //     arguments:
+                      //         UVArgs(emailController.text, pwController.text),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ],
     );
@@ -101,20 +133,15 @@ class FormBtn extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: mq.size.width * .35,
         margin: const EdgeInsets.only(top: 20),
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 13),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(.9),
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.1),
-              offset: const Offset(2, 2),
-              blurRadius: 3,
-              spreadRadius: 3,
-            ),
-          ],
+          // color: Colors.white.withOpacity(.9),
+          border: Border.all(
+            color: Colors.black.withOpacity(0.5),
+            width: .5,
+          ),
+          // borderRadius: BorderRadius.circular(5),
         ),
         child: Center(child: Text(text)),
       ),
@@ -142,18 +169,13 @@ class TField extends ConsumerWidget {
 
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white.withOpacity(.8),
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.1),
-              offset: const Offset(2, 2),
-              blurRadius: 2,
-              spreadRadius: 2,
-            ),
-          ]
-          // border: Border.all(color: Colors.black.withOpacity(.1)),
-          ),
+        color: Colors.white.withOpacity(.8),
+        // borderRadius: BorderRadius.circular(5),
+        border: Border.all(
+          color: confirmed ? Colors.green : Colors.black.withOpacity(0.5),
+          width: .5,
+        ),
+      ),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
@@ -166,8 +188,6 @@ class TField extends ConsumerWidget {
             borderSide: BorderSide(color: Colors.transparent),
           ),
           prefixIcon: Icon(prefixIcon),
-          suffixIcon:
-              confirmed ? const Icon(Icons.check) : const Icon(Icons.clear),
         ),
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.done,
