@@ -1,2 +1,7 @@
 build/
 rr/target
+rr_api/target
+rr_mobile/.vscode
+.DS_Store
+roles.md
+build
