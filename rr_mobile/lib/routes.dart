@@ -42,11 +42,6 @@ class RouteGen {
             ).animate(animation),
             child: child,
           ),
-          // child: SizeTransition(
-          //   sizeFactor: animation,
-          //   axisAlignment: 0.0,
-          //   child: child,
-          // ),
         );
       },
     );

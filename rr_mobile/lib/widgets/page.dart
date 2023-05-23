@@ -17,14 +17,7 @@ class RPage extends StatelessWidget {
         height: mq.size.height,
         width: mq.size.width,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        decoration:
-            const BoxDecoration(color: Color.fromARGB(255, 243, 250, 255)
-                // image: DecorationImage(
-                //   image: AssetImage('assets/images/color_splash.png'),
-                //   fit: BoxFit.cover,
-                //   opacity: .7,
-                // ),
-                ),
+        decoration: const BoxDecoration(color: Color(0xFFF3FAFF)),
         child: Stack(
           children: [
             ...children,
@@ -36,12 +29,6 @@ class RPage extends StatelessWidget {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // Run migration
-      //     Pers.db.then((db) => Migrations.runMigrations(db));
-      //   },
-      // ),
     );
   }
 }

@@ -125,11 +125,11 @@ class ScenarioTile extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          // borderRadius: BorderRadius.circular(10),
           color: Colors.white.withOpacity(.7),
           border: Border.all(
-            color: Colors.black.withOpacity(.3),
-            width: 2,
+            color: Colors.black.withOpacity(.5),
+            width: .5,
           )),
       child: InkWell(
         onTap: () => onTap != null ? onTap!() : {},
@@ -172,9 +172,22 @@ class Search extends StatelessWidget {
               ),
             ],
           ),
-          child: const TextField(
+          child: TextField(
             decoration: InputDecoration(
-              border: OutlineInputBorder(),
+              fillColor: Colors.black,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(0),
+                borderSide: BorderSide(
+                  color: Colors.black.withOpacity(.5),
+                  width: .5,
+                ),
+              ),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(0),
+                  borderSide: BorderSide(
+                    color: Colors.black.withOpacity(.5),
+                    width: .5,
+                  )),
               labelText: 'Search',
             ),
           ),
