@@ -15,9 +15,8 @@ class RouteGen {
       "/login" => move(const LoginView()),
       "/username" => move(UsernameView.from(settings.arguments as UVArgs)),
       "/download" => move(DownloadView()),
-      // case "/scenario":
-      //   final scenario = settings.arguments as Scenario;
-      //   return move(ScenarioView());
+      "/scenario" =>
+        move(ScenarioView(scenario: settings.arguments as Scenario)),
       _ => _errorRoute()
     };
   }

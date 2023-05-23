@@ -8,7 +8,7 @@
             "allergies",
             "reaction"
         ],
-        "instructions": "1. Call for emergency medical help\n2. Administer epinephrine if available\n3. Monitor breathing and provide CPR if necessary.",
+        "instructions": "1. Call for emergency medical help \n 2. Administer epinephrine if available \n 3. Monitor breathing and provide CPR if necessary.",
         "createdAt": "2023-04-01T18: 39: 25.771853Z",
         "updatedAt": "2023-04-01T18: 39: 25.771853Z"
     },
@@ -22,7 +22,7 @@
             "arm",
             "fracture"
         ],
-        "instructions": "1. Call for emergency medical help\n2. Immobilize the arm with a splint or sling\n3. Apply ice to reduce swelling\n4. Administer pain medication as needed.",
+        "instructions": "1. Call for emergency medical help \n 2. Immobilize the arm with a splint or sling \n 3. Apply ice to reduce swelling \n 4. Administer pain medication as needed.",
         "createdAt": "2023-04-01T18: 39: 25.771853Z",
         "updatedAt": "2023-04-01T18: 39: 25.771853Z"
     },
@@ -36,7 +36,7 @@
             "attack",
             "emergency"
         ],
-        "instructions": "1. Have the person sit upright and stay calm\n2. Administer a rescue inhaler if available\n3. Call for emergency medical help if the inhaler does not work\n4. Administer oxygen if available.",
+        "instructions": "1. Have the person sit upright and stay calm \n 2. Administer a rescue inhaler if available \n 3. Call for emergency medical help if the inhaler does not work \n 4. Administer oxygen if available.",
         "createdAt": "2023-04-01T18: 39: 25.771853Z",
         "updatedAt": "2023-04-01T18: 39: 25.771853Z"
     },
@@ -50,7 +50,7 @@
             "exhaustion",
             "dehydration"
         ],
-        "instructions": "1. Move the person to a cool, shaded area\n2. Offer water or sports drinks to rehydrate\n3. Apply cool, wet towels to the skin\n4. Monitor for signs of heat stroke.",
+        "instructions": "1. Move the person to a cool, shaded area \n 2. Offer water or sports drinks to rehydrate \n 3. Apply cool, wet towels to the skin \n 4. Monitor for signs of heat stroke.",
         "createdAt": "2023-04-01T18: 39: 25.771853Z",
         "updatedAt": "2023-04-01T18: 39: 25.771853Z"
     },
@@ -64,7 +64,7 @@
             "ankle",
             "sprain"
         ],
-        "instructions": "1. Rest the affected ankle\n2. Elevate the ankle above heart level\n3. Apply ice to reduce swelling\n4. Compress the ankle with a bandage\n5. Administer pain medication as needed.",
+        "instructions": "1. Rest the affected ankle \n 2. Elevate the ankle above heart level \n 3. Apply ice to reduce swelling \n 4. Compress the ankle with a bandage \n 5. Administer pain medication as needed.",
         "createdAt": "2023-04-01T18: 39: 25.771853Z",
         "updatedAt": "2023-04-01T18: 39: 25.771853Z"
     },
@@ -77,7 +77,7 @@
             "stroke",
             "emergency"
         ],
-        "instructions": "1. Call for emergency medical help\n2. Note the time the symptoms started\n3. Administer aspirin if not allergic\n4. Monitor breathing and provide CPR if necessary\n5. Keep the person calm and comfortable.",
+        "instructions": "1. Call for emergency medical help \n 2. Note the time the symptoms started \n 3. Administer aspirin if not allergic \n 4. Monitor breathing and provide CPR if necessary \n 5. Keep the person calm and comfortable.",
         "createdAt": "2023-04-01T18: 39: 25.771853Z",
         "updatedAt": "2023-04-01T18: 39: 25.771853Z"
     },
@@ -90,7 +90,7 @@
             "poisoning",
             "emergency"
         ],
-        "instructions": "1. Call for emergency medical help\n2. Identify the substance and amount ingested\n3. Administer activated charcoal if available\n4. Monitor breathing and provide CPR if necessary\n5. Keep the person calm and comfortable.",
+        "instructions": "1. Call for emergency medical help \n 2. Identify the substance and amount ingested \n 3. Administer activated charcoal if available \n 4. Monitor breathing and provide CPR if necessary \n 5. Keep the person calm and comfortable.",
         "createdAt": "2023-04-01T18: 39: 25.771853Z",
         "updatedAt": "2023-04-01T18: 39: 25.771853Z"
     }

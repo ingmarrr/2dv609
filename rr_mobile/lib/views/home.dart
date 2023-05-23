@@ -87,7 +87,8 @@ class Scenarios extends ConsumerWidget {
                 data.length,
                 (idx) => ScenarioTile(
                   scenario: data[idx],
-                  onTap: onTap,
+                  onTap: () => Navigator.pushNamed(context, "/scenario",
+                      arguments: data[idx]),
                   onLongPress: onLongPress,
                   onDoubleTap: onDoubleTap,
                 ),
@@ -102,7 +103,7 @@ class Scenarios extends ConsumerWidget {
 
 class ScenarioTile extends StatelessWidget {
   final Scenario scenario;
-  final void Function(Scenario)? onTap;
+  final void Function()? onTap;
   final void Function(Scenario)? onLongPress;
   final void Function(Scenario)? onDoubleTap;
 
@@ -131,7 +132,7 @@ class ScenarioTile extends StatelessWidget {
             width: 2,
           )),
       child: InkWell(
-        onTap: () => onTap != null ? onTap!(scenario) : {},
+        onTap: () => onTap != null ? onTap!() : {},
         onDoubleTap: () => onDoubleTap != null ? onDoubleTap!(scenario) : {},
         onLongPress: () => onLongPress != null ? onLongPress!(scenario) : {},
         child: ListTile(
