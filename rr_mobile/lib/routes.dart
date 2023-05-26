@@ -52,6 +52,10 @@ class RouteGen {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(_),
+            ),
             title: const Text('Error'),
           ),
           body: const Center(
@@ -67,6 +71,10 @@ class RouteGen {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(_),
+            ),
             title: const Text('Unimplemented'),
           ),
           body: const Center(

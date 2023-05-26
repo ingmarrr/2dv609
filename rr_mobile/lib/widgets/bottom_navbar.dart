@@ -31,6 +31,10 @@ class BottomNavbar extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, DownloadView.id),
           ),
           IconButton(
+            icon: const Icon(Icons.location_on),
+            onPressed: () => Navigator.pushNamed(context, "/unimplemented"),
+          ),
+          IconButton(
             icon: const Icon(Icons.person),
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, LoginView.id),
